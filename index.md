@@ -19,7 +19,7 @@ import GridTwo from '/.vitepress/vue/GridTwo.vue'
 
 <GridTwo>
 
-<CardFiles title="重度机械症 Acovia Edition" href="https://hub.acovia.net/resources/Mechanomania.zip/">模组服整合包</CardFiles>
+<CardFiles title="重度机械症 Acovia Edition" href="https://hub.acovia.net/resources/Mechanomania.zip">模组服整合包</CardFiles>
 
 <CardFiles title="Saves" href="https://hub.acovia.net/acovia-backups/">服务器的存档备份处</CardFiles>
 
