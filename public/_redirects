@@ -1,0 +1,5 @@
+# 旧 VitePress 地址
+/acovia-server/acovia /server 301
+/acovia-server/new /changelog 301
+/acovia-server/* /server 301
+/welcome / 301

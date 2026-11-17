@@ -1,0 +1,53 @@
+{
+  "title": "Acovia",
+  "description": "原版中世纪风格 Minecraft 服务器",
+  "lang": "zh-CN",
+  "base": "/",
+  "src_dir": "docs",
+  "out_dir": "dist",
+  "public_dir": "public",
+  "clean_urls": true,
+  "site_url": "https://acovia.net",
+  "sitemap": true,
+  "sidebar_file": "config/sidebar.json",
+  "logo": "/acovia.svg",
+  "appearance": "dark",
+  "nav": [
+    {
+      "text": "首页",
+      "link": "/"
+    },
+    {
+      "text": "服务器",
+      "link": "/server"
+    },
+    {
+      "text": "更新日志",
+      "link": "/changelog"
+    }
+  ],
+  "social_links": [
+    {
+      "icon": "github",
+      "link": "https://github.com/acovia-studio/acovia-website",
+      "label": "GitHub"
+    },
+    {
+      "icon": "bilibili",
+      "link": "https://b23.tv/gOLGiGq",
+      "label": "Bilibili"
+    }
+  ],
+  "footer": {
+    "message": "原版中世纪 Minecraft 服务器",
+    "copyright": "© 2026 Acovia · 鲁ICP备 2025208075 号"
+  },
+  "outline": {
+    "label": "本页目录",
+    "level": [
+      2,
+      3
+    ]
+  },
+  "prev_next": true
+}

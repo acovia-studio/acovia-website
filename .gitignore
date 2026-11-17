@@ -1,0 +1,6 @@
+dist/
+docs-go
+.chromium/
+.chromium2/
+.shot/
+preview.png

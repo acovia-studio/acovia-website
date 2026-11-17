@@ -1,0 +1,24 @@
+[
+  {
+    "text": "Acovia",
+    "items": [
+      {
+        "text": "服务器介绍",
+        "link": "/server"
+      },
+      {
+        "text": "更新日志",
+        "link": "/changelog"
+      }
+    ]
+  },
+  {
+    "text": "导航",
+    "items": [
+      {
+        "text": "官网首页",
+        "link": "/"
+      }
+    ]
+  }
+]
