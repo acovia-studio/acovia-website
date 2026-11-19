@@ -1,28 +1,55 @@
-[
-  {
-    "text": "Acovia",
-    "items": [
-      {
-        "text": "服务器介绍",
-        "link": "/server"
-      },
-      {
-        "text": "服务器玩法",
-        "link": "/gameplay"
-      },
-      {
-        "text": "更新日志",
-        "link": "/changelog"
-      }
-    ]
-  },
-  {
-    "text": "导航",
-    "items": [
-      {
-        "text": "官网首页",
-        "link": "/"
-      }
-    ]
-  }
-]
+{
+  "/server": [
+    {
+      "text": "Acovia",
+      "items": [
+        {
+          "text": "服务器介绍",
+          "link": "/server"
+        },
+        {
+          "text": "服务器玩法",
+          "link": "/server/gameplay"
+        },
+        {
+          "text": "更新日志",
+          "link": "/server/changelog"
+        }
+      ]
+    }
+  ],
+  "/develop": [
+    {
+      "text": "开发文档",
+      "link": "/develop"
+    },
+    {
+      "text": "数据包 API",
+      "link": "/develop/datapack",
+      "items": [
+        {
+          "text": "多维度",
+          "link": "/develop/datapack/dimensions"
+        },
+        {
+          "text": "内置函数",
+          "link": "/develop/datapack/functions"
+        },
+        {
+          "text": "附魔",
+          "link": "/develop/datapack/enchantments"
+        }
+      ]
+    },
+    {
+      "text": "维护文档",
+      "link": "/develop/maintain",
+      "items": [
+        {
+          "text": "种子迁移",
+          "link": "/develop/maintain/ch-seed"
+        }
+      ]
+    }
+  ]
+}

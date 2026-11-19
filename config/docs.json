@@ -20,6 +20,10 @@
     {
       "text": "服务器",
       "link": "/server"
+    },
+    {
+      "text": "开发文档",
+      "link": "/develop"
     }
   ],
   "social_links": [

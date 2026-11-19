@@ -1,6 +1,6 @@
 @font-face {
   font-family: "TsangerYuYangT";
-  src: url("/assets/TsangerYuYangT.ttf");
+  src: url("/assets/TsangerYuYangT.ttf?v=122e0f0c");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -239,6 +239,59 @@ main {
   transition: color 0.2s ease, transform 0.2s ease;
 }
 .link-row:hover .arrow { color: var(--amber); transform: translateX(3px); }
+
+/* ---------- 载入 ---------- */
+.loader { display: none; }
+
+html.js .loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--bg);
+  transition: opacity 0.45s ease;
+}
+
+html.js #page {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+html.js.is-ready #page { opacity: 1; }
+
+html.js.is-ready .loader {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.45s ease, visibility 0s linear 0.45s;
+}
+
+.loader img { width: 34px; height: 34px; }
+
+.loader span {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.loader-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--amber);
+  animation: loader-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes loader-pulse {
+  50% { opacity: 0.25; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-dot { animation: none; }
+}
 
 /* ---------- 胶片 ---------- */
 .reel {

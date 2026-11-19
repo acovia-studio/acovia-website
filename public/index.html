@@ -3,130 +3,168 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Acovia · 原版中世纪 Minecraft 服务器</title>
-  <meta name="description" content="Acovia 是一个原版中世纪风格的 Minecraft 服务器。正版验证，公共存档，不限制模组加载器。">
+  <title>Acovia | 原版中世纪 Minecraft 服务器</title>
+  <meta name="description" content="Acovia 是一个原版中世纪风格的 Minecraft 服务器。正版验证，公共存档。">
   <meta name="theme-color" content="#0b0a08">
-  <meta property="og:title" content="Acovia · 原版中世纪 Minecraft 服务器">
-  <meta property="og:description" content="正版验证 · 公共存档 · 资源维度 · 不限制模组加载器">
+  <meta property="og:title" content="Acovia · 原版中世纪风格 Minecraft 服务器">
+  <meta property="og:description" content="正版验证 | 公共存档 | 多维度">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://acovia.net/">
   <link rel="icon" href="/favicon.ico">
-  <link rel="preload" href="/assets/TsangerYuYangT.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/assets/acovia.css">
+  <link rel="preload" href="/assets/TsangerYuYangT.ttf?v=122e0f0c" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="/assets/acovia.css?v=3ed96568">
   <script src="/assets/acovia.js" defer></script>
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add("js");
+
+      // 兜底：脚本出错或资源一直不返回时，页面也要放出来
+      window.setTimeout(function () { root.classList.add("is-ready"); }, 8000);
+
+      function reveal() {
+        root.classList.add("is-ready");
+      }
+
+      function waitForAssets() {
+        var fonts = document.fonts ? document.fonts.ready.catch(function () {}) : Promise.resolve();
+        var loaded = new Promise(function (resolve) {
+          if (document.readyState === "complete") resolve();
+          else window.addEventListener("load", resolve, { once: true });
+        });
+        var timeout = new Promise(function (resolve) {
+          window.setTimeout(resolve, 6000);
+        });
+        Promise.race([Promise.all([fonts, loaded]), timeout]).then(reveal, reveal);
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", waitForAssets, { once: true });
+      } else {
+        waitForAssets();
+      }
+    })();
+  </script>
 </head>
 <body>
-  <a class="skip-link" href="#main">跳到主要内容</a>
+  <div class="loader" aria-hidden="true">
+    <img src="/acovia.svg" alt="" width="34" height="34">
+    <span>Acovia</span>
+    <i class="loader-dot"></i>
+  </div>
 
-  <header class="site-header">
-    <a class="brand" href="/" aria-label="Acovia 首页">
-      <img src="/acovia.svg" alt="" width="34" height="34">
-      <span>Acovia</span>
-    </a>
-    <nav class="site-nav" aria-label="主导航">
-      <a href="/server">服务器</a>
-      <a href="/gameplay">玩法</a>
-      <a href="/changelog">更新日志</a>
-      <a href="https://qm.qq.com/q/5xdg6qn8nS" target="_blank" rel="noopener">群聊</a>
-    </nav>
-  </header>
+  <div id="page">
+    <a class="skip-link" href="#main">跳到主要内容</a>
 
-  <main id="main">
-    <section class="hero">
-      <p class="eyebrow">VANILLA · MEDIEVAL · JAVA EDITION</p>
-      <h1>Acovia</h1>
-      <p class="lead">一个仍在生长的中世纪原版世界。<br>正版验证，公共存档，不限制模组加载器。</p>
-
-      <div class="actions">
-        <a class="button button-primary" href="/server">进入服务器</a>
-        <button class="button button-copy" type="button" data-copy="acovia.net" aria-label="复制服务器地址 acovia.net">
-          <code>acovia.net</code>
-          <span>复制</span>
-        </button>
-      </div>
-
-      <p class="meta">Java 版 · 26.3 · 正版验证</p>
-    </section>
-
-    <section class="links" aria-label="页面入口">
-      <a class="link-row" href="/server">
-        <span class="num">01</span>
-        <span class="link-text"><strong>服务器介绍</strong><small>版本、加入方式与规则</small></span>
-        <span class="arrow">→</span>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Acovia 首页">
+        <img src="/acovia.svg" alt="" width="34" height="34">
+        <span>Acovia</span>
       </a>
-      <a class="link-row" href="/gameplay">
-        <span class="num">02</span>
-        <span class="link-text"><strong>服务器玩法</strong><small>三个维度、物品与附魔</small></span>
-        <span class="arrow">→</span>
-      </a>
-      <a class="link-row" href="/changelog">
-        <span class="num">03</span>
-        <span class="link-text"><strong>更新日志</strong><small>世界最近发生的事</small></span>
-        <span class="arrow">→</span>
-      </a>
-      <a class="link-row" href="https://repo.acovia.net/resources/vmcs" target="_blank" rel="noopener">
-        <span class="num">04</span>
-        <span class="link-text"><strong>公共存档</strong><small>下载世界存档</small></span>
-        <span class="arrow">↗</span>
-      </a>
-      <a class="link-row" href="https://qm.qq.com/q/5xdg6qn8nS" target="_blank" rel="noopener">
-        <span class="num">05</span>
-        <span class="link-text"><strong>加入群聊</strong><small>QQ 群</small></span>
-        <span class="arrow">↗</span>
-      </a>
-    </section>
-  </main>
+      <nav class="site-nav" aria-label="主导航">
+        <a href="/server">服务器</a>
+        <a href="/develop">开发文档</a>
+        <a href="https://qm.qq.com/q/5xdg6qn8nS" target="_blank" rel="noopener">群聊</a>
+      </nav>
+    </header>
 
-  <section class="reel" id="reel" aria-labelledby="reel-title">
-    <div class="reel-inner">
-      <h2 class="reel-label" id="reel-title">服务器风景</h2>
-      <div class="reel-window">
-        <div class="reel-row">
-          <div class="reel-track">
-            <div class="reel-group">
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-1.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-1-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-1.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-1.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-2.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-2-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-2.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-2.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-3.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-3-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-3.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-3.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-4.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-4-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-4.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-4.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-5.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-5-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-5.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-5.png'"></figure>
+    <main id="main">
+      <section class="hero">
+        <p class="eyebrow">VANILLA · MEDIEVAL · JAVA EDITION</p>
+        <h1>Acovia</h1>
+        <p class="lead">一个仍在生长的中世纪原版世界。<br>正版验证，公共存档，不限制模组加载器。</p>
+
+        <div class="actions">
+          <a class="button button-primary" href="/server">进入服务器</a>
+          <button class="button button-copy" type="button" data-copy="acovia.net" aria-label="复制服务器地址 acovia.net">
+            <code>acovia.net</code>
+            <span>复制</span>
+          </button>
+        </div>
+
+        <p class="meta">Java 版 · 26.3 · 正版验证</p>
+      </section>
+
+      <section class="links" aria-label="页面入口">
+        <a class="link-row" href="/server">
+          <span class="num">01</span>
+          <span class="link-text"><strong>服务器介绍</strong><small>版本、加入方式与规则</small></span>
+          <span class="arrow">→</span>
+        </a>
+        <a class="link-row" href="/gameplay">
+          <span class="num">02</span>
+          <span class="link-text"><strong>服务器玩法</strong><small>三个维度、物品与附魔</small></span>
+          <span class="arrow">→</span>
+        </a>
+        <a class="link-row" href="/changelog">
+          <span class="num">03</span>
+          <span class="link-text"><strong>更新日志</strong><small>世界最近发生的事</small></span>
+          <span class="arrow">→</span>
+        </a>
+        <a class="link-row" href="https://repo.acovia.net/resources/vmcs" target="_blank" rel="noopener">
+          <span class="num">04</span>
+          <span class="link-text"><strong>公共存档</strong><small>下载世界存档</small></span>
+          <span class="arrow">↗</span>
+        </a>
+        <a class="link-row" href="https://qm.qq.com/q/5xdg6qn8nS" target="_blank" rel="noopener">
+          <span class="num">05</span>
+          <span class="link-text"><strong>加入群聊</strong><small>QQ 群</small></span>
+          <span class="arrow">↗</span>
+        </a>
+      </section>
+    </main>
+
+    <section class="reel" id="reel" aria-labelledby="reel-title">
+      <div class="reel-inner">
+        <h2 class="reel-label" id="reel-title">服务器风景</h2>
+        <div class="reel-window">
+          <div class="reel-row">
+            <div class="reel-track">
+              <div class="reel-group">
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-1.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-1-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-1.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-1.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-2.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-2-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-2.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-2.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-3.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-3-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-3.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-3.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-4.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-4-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-4.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-4.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-5.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-5-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-5.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-5.png'"></figure>
+              </div>
+              <div class="reel-group" aria-hidden="true">
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-1.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-1-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-1.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-1.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-2.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-2-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-2.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-2.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-3.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-3-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-3.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-3.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-4.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-4-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-4.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-4.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-5.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-5-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-5.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-5.png'"></figure>
+              </div>
             </div>
-            <div class="reel-group" aria-hidden="true">
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-1.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-1-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-1.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-1.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-2.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-2-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-2.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-2.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-3.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-3-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-3.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-3.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-4.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-4-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-4.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-4.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-5.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-5-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-5.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-5.png'"></figure>
+          </div>
+          <div class="reel-row reel-row--reverse">
+            <div class="reel-track">
+              <div class="reel-group">
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-6.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-6-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-6.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-6.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-7.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-7-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-7.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-7.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-8.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-8-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-8.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-8.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-9.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-9-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-9.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-9.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-10.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-10-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-10.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-10.png'"></figure>
+              </div>
+              <div class="reel-group" aria-hidden="true">
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-6.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-6-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-6.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-6.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-7.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-7-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-7.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-7.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-8.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-8-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-8.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-8.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-9.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-9-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-9.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-9.png'"></figure>
+                <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-10.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-10-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-10.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-10.png'"></figure>
+              </div>
             </div>
           </div>
         </div>
-        <div class="reel-row reel-row--reverse">
-          <div class="reel-track">
-            <div class="reel-group">
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-6.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-6-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-6.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-6.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-7.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-7-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-7.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-7.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-8.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-8-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-8.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-8.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-9.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-9-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-9.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-9.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-10.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-10-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-10.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-10.png'"></figure>
-            </div>
-            <div class="reel-group" aria-hidden="true">
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-6.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-6-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-6.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-6.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-7.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-7-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-7.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-7.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-8.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-8-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-8.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-8.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-9.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-9-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-9.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-9.png'"></figure>
-              <figure class="reel-frame"><img src="https://repo.acovia.net/resources/web/webp/acovia-10.webp" srcset="https://repo.acovia.net/resources/web/webp/acovia-10-640.webp 640w, https://repo.acovia.net/resources/web/webp/acovia-10.webp 1280w" sizes="(max-width: 744px) 240px, 312px" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://repo.acovia.net/resources/web/pictures/acovia-10.png'"></figure>
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <footer class="site-footer">
-    <span>© 2026 Acovia</span>
-    <span>使用 docs-go 构建</span>
-    <span>鲁ICP备 2025208075 号</span>
-  </footer>
+    <footer class="site-footer">
+      <span>© 2026 Acovia</span>
+      <span>使用 docs-go 构建</span>
+      <span>鲁ICP备 2025208075 号</span>
+    </footer>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
 </body>
 </html>

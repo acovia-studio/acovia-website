@@ -5,7 +5,7 @@
 
 @font-face {
 	font-family: "TsangerYuYangT";
-	src: url("/assets/TsangerYuYangT.ttf") format("truetype");
+	src: url("/assets/TsangerYuYangT.ttf?v=122e0f0c") format("truetype");
 	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
