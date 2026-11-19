@@ -1,5 +1,7 @@
 dist/
 docs-go
+docs-go_linux_amd64/
+docs-go_linux_amd64.tar.gz
 .chromium/
 .chromium2/
 .shot/

@@ -7,6 +7,10 @@
         "link": "/server"
       },
       {
+        "text": "服务器玩法",
+        "link": "/gameplay"
+      },
+      {
         "text": "更新日志",
         "link": "/changelog"
       }
