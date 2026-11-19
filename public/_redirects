@@ -1,5 +1,7 @@
 # 旧 VitePress 地址
 /acovia-server/acovia /server 301
-/acovia-server/new /changelog 301
+/acovia-server/new /server/changelog 301
 /acovia-server/* /server 301
 /welcome / 301
+/gameplay /server/gameplay 301
+/changelog /server/changelog 301

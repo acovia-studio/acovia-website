@@ -38,6 +38,32 @@
         {
           "text": "附魔",
           "link": "/develop/datapack/enchantments"
+        },
+        {
+          "text": "物品与配方",
+          "link": "/develop/datapack/items"
+        },
+        {
+          "text": "进度与判据",
+          "link": "/develop/datapack/advancements"
+        },
+        {
+          "text": "世界生成",
+          "link": "/develop/datapack/worldgen"
+        }
+      ]
+    },
+    {
+      "text": "开发指南",
+      "link": "/develop/guide",
+      "items": [
+        {
+          "text": "本地开发与调试",
+          "link": "/develop/guide/dev"
+        },
+        {
+          "text": "发布与版本",
+          "link": "/develop/guide/release"
         }
       ]
     },
@@ -45,6 +71,10 @@
       "text": "维护文档",
       "link": "/develop/maintain",
       "items": [
+        {
+          "text": "存档备份",
+          "link": "/develop/maintain/backup"
+        },
         {
           "text": "种子迁移",
           "link": "/develop/maintain/ch-seed"
