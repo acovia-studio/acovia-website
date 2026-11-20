@@ -76,8 +76,8 @@
           "link": "/develop/maintain/backup"
         },
         {
-          "text": "种子迁移",
-          "link": "/develop/maintain/ch-seed"
+          "text": "区域迁移",
+          "link": "/develop/maintain/region-migration"
         }
       ]
     }

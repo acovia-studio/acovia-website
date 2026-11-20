@@ -196,6 +196,12 @@ main {
   animation: rise 0.7s 0.3s ease both;
 }
 
+.fri-links {
+  padding: 42px 0px;
+  max-width: 960px;
+  animation: rise 0.7s 0.42s ease both;
+}
+
 .link-row {
   display: grid;
   grid-template-columns: 52px 1fr 24px;
@@ -299,18 +305,11 @@ html.js.is-ready .loader {
   --reel-count: 5; /* 每行图片数，决定错位节奏与行程长度 */
   --reel-travel: calc(var(--reel-count) * (var(--frame-w) + var(--frame-gap)));
   margin-top: 84px;
-  overflow: hidden;
   animation: rise 0.7s 0.36s ease both;
-}
-
-.reel-inner {
-  width: min(100%, 960px);
-  margin: 0 auto;
 }
 
 .reel-label {
   margin: 0 0 16px;
-  padding: 0 2px;
   color: var(--faint);
   font-family: var(--mono);
   font-size: 0.62rem;
@@ -387,9 +386,6 @@ html.js.is-ready .loader {
   object-fit: cover;
 }
 
-.reel:hover .reel-frame,
-.reel:focus-within .reel-frame { animation-play-state: paused; }
-
 /* 从窗口右侧外走到左侧外，一次循环刚好走完 --reel-count 个身位 */
 @keyframes reel-flow {
   from { transform: translateX(100cqw); }
@@ -435,7 +431,6 @@ html.js.is-ready .loader {
 
 @media (max-width: 640px) {
   .site-header { padding: 16px 20px; }
-  .reel-label { padding: 0 20px; }
   .site-nav { gap: 16px; }
   main { padding: 0 20px; }
   .hero { padding-top: 64px; }
