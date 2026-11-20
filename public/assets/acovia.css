@@ -210,7 +210,6 @@ main {
 .link-row + .link-row { border-top: 0; }
 
 .link-row:hover {
-  border-radius: 32px;
   background: linear-gradient(90deg, rgba(255, 176, 46, 0.045), transparent 70%);
 }
 
