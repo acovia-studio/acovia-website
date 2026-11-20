@@ -4,8 +4,5 @@
 /assets/acovia.js
   Cache-Control: public, max-age=0, must-revalidate
 
-/assets/TsangerYuYangT.ttf
-  Cache-Control: public, max-age=31536000, immutable
-
 /assets/style.css
   Cache-Control: public, max-age=0, must-revalidate

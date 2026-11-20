@@ -6,3 +6,4 @@ docs-go_linux_amd64.tar.gz
 .chromium2/
 .shot/
 preview.png
+public/assets/*.ttf

@@ -1,6 +1,6 @@
 @font-face {
   font-family: "TsangerYuYangT";
-  src: url("/assets/TsangerYuYangT.ttf?v=122e0f0c");
+  src: url("https://repo.acovia.net/resources/fonts/TsangerYuYangT.ttf");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -294,6 +294,10 @@ html.js.is-ready .loader {
 
 /* ---------- 胶片 ---------- */
 .reel {
+  --frame-gap: 12px;
+  --frame-w: clamp(240px, calc((min(100vw, 960px) - 24px) / 3), 312px);
+  --reel-count: 5; /* 每行图片数，决定错位节奏与行程长度 */
+  --reel-travel: calc(var(--reel-count) * (var(--frame-w) + var(--frame-gap)));
   margin-top: 84px;
   overflow: hidden;
   animation: rise 0.7s 0.36s ease both;
@@ -320,8 +324,13 @@ html.js.is-ready .loader {
   mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
 
+/* 一行内的画面叠在同一个网格单元里，各自决定自己的位置，不共用一条轨道 */
 .reel-row {
+  --reel-duration: 54s;
   position: relative;
+  display: grid;
+  grid-template-columns: 100%;
+  container-type: inline-size; /* 供 reel-flow 里的 100cqw 取行宽 */
   padding: 22px 0;
   background: #1a150e;
 }
@@ -343,33 +352,32 @@ html.js.is-ready .loader {
 .reel-row::before { top: 5px; }
 .reel-row::after { bottom: 5px; }
 
-.reel-track {
-  display: flex;
-  width: max-content;
-  animation: reel-left 54s linear infinite;
-}
-
-.reel-row--reverse .reel-track {
-  animation-name: reel-right;
-  animation-duration: 66s;
-  animation-delay: -18s;
-}
-
-.reel-group {
-  display: flex;
-  gap: 12px;
-  padding-right: 12px;
-}
-
+/* 每张图独立走完 --reel-count 个身位；行程两端都在窗口外，循环点因此看不见 */
 .reel-frame {
-  flex: none;
-  width: clamp(240px, calc((min(100vw, 960px) - 24px) / 3), 312px);
+  --i: 0;
+  grid-area: 1 / 1;
+  width: var(--frame-w);
   margin: 0;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: 2px;
   background: var(--panel);
   box-shadow: inset 0 0 0 1px rgba(241, 232, 214, 0.07);
+  animation: reel-flow var(--reel-duration) linear infinite;
+  /* 第一张走在最前，后面的依次排到它右边 */
+  animation-delay: calc((var(--reel-count) - 1 - var(--i)) / var(--reel-count) * var(--reel-duration) * -1);
+}
+
+.reel-frame:nth-child(2) { --i: 1; }
+.reel-frame:nth-child(3) { --i: 2; }
+.reel-frame:nth-child(4) { --i: 3; }
+.reel-frame:nth-child(5) { --i: 4; }
+
+.reel-row--reverse { --reel-duration: 66s; }
+.reel-row--reverse .reel-frame {
+  animation-direction: reverse;
+  /* 反向播放时相位改用正序，首张才能仍在最左 */
+  animation-delay: calc(var(--i) / var(--reel-count) * var(--reel-duration) * -1);
 }
 
 .reel-frame img {
@@ -379,17 +387,13 @@ html.js.is-ready .loader {
   object-fit: cover;
 }
 
-.reel:hover .reel-track,
-.reel:focus-within .reel-track { animation-play-state: paused; }
+.reel:hover .reel-frame,
+.reel:focus-within .reel-frame { animation-play-state: paused; }
 
-@keyframes reel-left {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-@keyframes reel-right {
-  from { transform: translateX(-50%); }
-  to { transform: translateX(0); }
+/* 从窗口右侧外走到左侧外，一次循环刚好走完 --reel-count 个身位 */
+@keyframes reel-flow {
+  from { transform: translateX(100cqw); }
+  to { transform: translateX(calc(100cqw - var(--reel-travel))); }
 }
 
 .site-footer {
@@ -443,8 +447,15 @@ html.js.is-ready .loader {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .reel-track { animation: none !important; }
-  .reel-row { overflow-x: auto; }
+  .reel-row {
+    display: flex;
+    gap: var(--frame-gap);
+    overflow-x: auto;
+  }
+  .reel-frame {
+    flex: none;
+    animation: none;
+  }
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
