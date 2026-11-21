@@ -1,6 +1,6 @@
 # 服务器介绍
 
-Acovia 是一个以原版生存为核心的中世纪风格 Minecraft 服务器。秉持着开源理念，服务器的一切都对外开放，包括[世界存档](https://repo.acovia.net/resourses/vmcs/)，具体玩法见[服务器玩法](/server/gameplay)。
+Acovia 是一个以原版生存为核心的中世纪风格 Minecraft 服务器。秉持着开源理念，服务器的一切都对外开放，包括[世界存档](https://repo.acovia.net/resources/vmcs/)，具体玩法见[服务器玩法](/server/gameplay)。
 
 ## 服务器信息
 
