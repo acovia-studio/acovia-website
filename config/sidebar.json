@@ -69,15 +69,19 @@
     },
     {
       "text": "维护文档",
-      "link": "/develop/maintain",
+      "link": "/develop/maintain-save",
       "items": [
         {
           "text": "存档备份",
-          "link": "/develop/maintain/backup"
+          "link": "/develop/maintain-save/backup"
         },
         {
           "text": "区域迁移",
-          "link": "/develop/maintain/region-migration"
+          "link": "/develop/maintain-save/region-migration"
+        },
+        {
+          "text": "管理员模式",
+          "link": "/develop/maintain-save/admin-mode"
         }
       ]
     }

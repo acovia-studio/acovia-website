@@ -22,7 +22,7 @@ Acovia 是一个以原版生存为核心的中世纪风格 Minecraft 服务器�
 
 ## 存档
 
-世界存档会定期公开，下载地址见[公共存档](https://repo.acovia.net/resources/vmcs)。
+世界存档会定期公开，下载地址见[公共存档](https://repo.acovia.net/resources/backup-saves/)。
 
 离开的玩家可以把建筑留在世界里。存档公开后，后来的人仍然可以下载、查看。
 
