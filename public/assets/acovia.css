@@ -7,14 +7,20 @@
 }
 
 :root {
-  --bg: #0b0a08;
-  --panel: #12100c;
-  --text: #f1e8d6;
-  --muted: #a99b84;
-  --faint: #756957;
-  --amber: #ffb02e;
-  --line: #2a241b;
-  --line-strong: #443a2a;
+  color-scheme: dark;
+  --bg: #100c08;
+  --surface: #202020;
+  --surface-2: #282828;
+  --text: #ffefdf;
+  --muted: #cfbfaf;
+  --faint: #808080;
+  --accent: #8f4f00;
+  --accent-hover: #af5f00;
+  --accent-soft: #ff8f000f;
+  --on-accent: #ffffff;
+  --selection-bg: #ff8f004f;
+  --line: #383838;
+  --line-strong: #4a4a4a;
   --serif: "TsangerYuYangT", "仓耳渔阳体", "Noto Serif SC", "Songti SC", serif;
   --sans: "TsangerYuYangT", "仓耳渔阳体", "Noto Sans SC", "PingFang SC", system-ui, sans-serif;
   --mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
@@ -31,14 +37,14 @@ body {
   margin: 0;
   color: var(--text);
   background:
-    radial-gradient(ellipse 60% 45% at 50% -12%, rgba(255, 176, 46, 0.08), transparent 70%),
+    radial-gradient(ellipse 60% 45% at 50% -12%, var(--accent-soft), transparent 70%),
     var(--bg);
   font-family: var(--sans);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-::selection { background: var(--amber); color: #171006; }
+::selection { background: var(--selection-bg); }
 
 a { color: inherit; }
 
@@ -49,8 +55,8 @@ a { color: inherit; }
   z-index: 20;
   padding: 8px 14px;
   border-radius: 6px;
-  background: var(--amber);
-  color: #171006;
+  background: var(--accent);
+  color: var(--on-accent);
   transform: translateY(-160%);
   transition: transform 0.2s ease;
 }
@@ -111,7 +117,7 @@ main {
 
 .eyebrow {
   margin: 0 0 18px;
-  color: var(--amber);
+  color: var(--accent);
   font-family: var(--mono);
   font-size: 0.62rem;
   letter-spacing: 0.22em;
@@ -161,15 +167,15 @@ main {
   cursor: pointer;
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
-.button:hover { border-color: var(--amber); transform: translateY(-1px); }
+.button:hover { border-color: var(--accent); transform: translateY(-1px); }
 
 .button-primary {
-  border-color: var(--amber);
-  background: var(--amber);
-  color: #171006;
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
   font-weight: 700;
 }
-.button-primary:hover { background: #ffaf00; border-color: #ffaf00; }
+.button-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
 
 .button-copy code {
   font-family: var(--mono);
@@ -216,7 +222,7 @@ main {
 .link-row + .link-row { border-top: 0; }
 
 .link-row:hover {
-  background: linear-gradient(90deg, rgba(255, 176, 46, 0.045), transparent 70%);
+  background: linear-gradient(90deg, var(--accent-soft), transparent 70%);
 }
 
 .num {
@@ -243,7 +249,7 @@ main {
   font-size: 0.95rem;
   transition: color 0.2s ease, transform 0.2s ease;
 }
-.link-row:hover .arrow { color: var(--amber); transform: translateX(3px); }
+.link-row:hover .arrow { color: var(--accent); transform: translateX(3px); }
 
 /* ---------- 载入 ---------- */
 .loader { display: none; }
@@ -286,7 +292,7 @@ html.js.is-ready .loader {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--amber);
+  background: var(--accent);
   animation: loader-pulse 1.2s ease-in-out infinite;
 }
 
@@ -331,7 +337,7 @@ html.js.is-ready .loader {
   grid-template-columns: 100%;
   container-type: inline-size; /* 供 reel-flow 里的 100cqw 取行宽 */
   padding: 22px 0;
-  background: #1a150e;
+  background: var(--surface-2);
 }
 
 .reel-row + .reel-row { margin-top: 10px; }
@@ -343,7 +349,7 @@ html.js.is-ready .loader {
   left: 0;
   right: 0;
   height: 10px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='10'%3E%3Crect width='12' height='10' rx='2.5' fill='%23afaaa0'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='10'%3E%3Crect width='12' height='10' rx='2.5' fill='%23808080'/%3E%3C/svg%3E");
   background-repeat: repeat-x;
   background-size: 28px 10px;
   pointer-events: none;
@@ -360,8 +366,8 @@ html.js.is-ready .loader {
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: 2px;
-  background: var(--panel);
-  box-shadow: inset 0 0 0 1px rgba(241, 232, 214, 0.07);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
   animation: reel-flow var(--reel-duration) linear infinite;
   /* 第一张走在最前，后面的依次排到它右边 */
   animation-delay: calc((var(--reel-count) - 1 - var(--i)) / var(--reel-count) * var(--reel-duration) * -1);
@@ -416,7 +422,7 @@ html.js.is-ready .loader {
   border: 1px solid var(--line-strong);
   border-radius: 6px;
   color: var(--text);
-  background: var(--panel);
+  background: var(--surface);
   font-size: 0.76rem;
   opacity: 0;
   pointer-events: none;
@@ -459,7 +465,7 @@ html.js.is-ready .loader {
 
 @media print {
   .site-header, .toast, .skip-link { display: none !important; }
-  body { background: #fff; color: #111; }
-  .hero h1 { color: #111; }
-  .lead, .meta, .link-text small, .num { color: #444; }
+  body { background: #fffdfb; color: #181818; }
+  .hero h1 { color: #080808; }
+  .lead, .meta, .link-text small, .num { color: #484848; }
 }
