@@ -13,14 +13,14 @@
   --surface-2: #282828;
   --text: #ffefdf;
   --muted: #cfbfaf;
-  --faint: #808080;
+  --faint: #af9f8f;
   --accent: #8f4f00;
   --accent-hover: #af5f00;
   --accent-soft: #ff8f000f;
   --on-accent: #ffffff;
   --selection-bg: #ff8f004f;
-  --line: #383838;
-  --line-strong: #4a4a4a;
+  --line: #4f3f2f;
+  --line-strong: #6f5f4f;
   --serif: "TsangerYuYangT", "仓耳渔阳体", "Noto Serif SC", "Songti SC", serif;
   --sans: "TsangerYuYangT", "仓耳渔阳体", "Noto Sans SC", "PingFang SC", system-ui, sans-serif;
   --mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
