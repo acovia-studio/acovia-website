@@ -15,13 +15,11 @@
 
 ## 触发与复位
 
-原版进度在同一玩家身上只会触发一次。函数在完成行为后撤回对应进度，使下一次动作可以再次触发：
+原版进度在同一玩家身上只会触发一次。函数在完成行为后撤回对应进度，使下一次动作可以再次触发，例如玩家在触发 `use_eroven` 函数后，其钩子函数必须包含下列命令：
 
 ```mcfunction
 advancement revoke @s only acovia:use_eroven
 ```
-
-`use_eroven` 与 `use_rewind_scroll` 在传送前撤回自身；`clear_advancements` 在床触发时撤回 `use_flower_of_regeneration`、`use_rewind_scroll`、`use_eroven` 与 `clear_advancements`，随后将时间设为夜晚。
 
 新增使用进度的行为时，必须同时实现撤回逻辑，否则该行为只生效一次。
 
