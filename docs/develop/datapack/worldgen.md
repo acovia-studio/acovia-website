@@ -28,7 +28,7 @@
 `ancient_oak` 与 `ancient_spruce` 使用巨型丛林树干放置器：
 
 - 主干基础高度为 16，随机附加 16 与 16，因此高度范围为 16 至 48。
-- 树叶以杜鹃叶为主，少量为开花杜鹃叶。
+- `ancient_oak` 的树叶约 90% 为杜鹃叶、10% 为开花杜鹃叶；`ancient_spruce` 使用云杉叶。
 - 根系使用红树林根系，垂直偏移范围为 8 至 32。
 
 树干、树叶与根系均由 `configured_feature` 定义；出现频率与高度分布由 `placed_feature` 控制。
@@ -52,6 +52,6 @@
 4. 重启服务器。世界生成数据在世界加载时注册；`/reload` 不保证重新加载生成器。
 5. 在新生成的区块中验证。已生成的区块不会改变。
 6. 使用 `/place feature acovia:<id>` 可在当前位置单独测试地物。
-7. 按[备份](/develop/maintain/backup)保留存档，并按[种子迁移](/develop/maintain/ch-seed)处理需要保留的旧地形。
+7. 按[备份](/develop/maintain-save/backup)保留存档，并按[区域迁移](/develop/maintain-save/region-migration)处理需要保留的旧地形。
 
 修改群系或地物后，旧区块仍保持原样；只有新生成的区块使用新设置。若需要让旧区域也使用新地形，必须更换种子或迁移区块，无法通过 `/reload` 完成。

@@ -2,9 +2,9 @@
 
 本组文档记录会影响存档与服务器状态的操作。此类操作不可轻易撤销，执行前应完成备份，并在副本上验证。
 
-- [存档备份](/develop/maintain/backup)：新旧存档结构、文件作用、mc-saver 规则、备份与恢复流程。
-- [区域迁移](/develop/maintain/region-migration)：区块文件位置、混合标记、区域文件替换、边界生成与故障排除。
-- [管理员模式](/develop/maintain/admin-mode)：为世界启用管理员模式。
+- [存档备份](/develop/maintain-save/backup)：新旧存档结构、文件作用、mc-saver 规则、备份与恢复流程。
+- [区域迁移](/develop/maintain-save/region-migration)：区块文件位置、混合标记、区域文件替换、边界生成与故障排除。
+- [管理员模式](/develop/maintain-save/admin-mode)：为世界启用管理员模式。
 
 ## 维护原则
 

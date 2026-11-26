@@ -39,6 +39,8 @@
 | `/advancement grant <玩家> only acovia:<id>` | 检查进度状态 |
 | `/advancement revoke <玩家> only acovia:<id>` | 复位进度 |
 | `/enchant <玩家> acovia:<id> 1` | 附加附魔 |
+| `/function acovia:get/invitation` | 发放邀请函 |
+| `/advancement grant <玩家> only acovia:welcome_to_acovia` | 模拟正式加入，触发新手礼包 |
 | `/data get entity <实体>` | 检查实体数据与组件 |
 | `/schedule list` | 查看已排期的函数 |
 | `/place feature acovia:<id>` | 单独测试地物 |
@@ -58,17 +60,22 @@
 
 **附魔无法附加。** 检查 `supported_items` 是否包含目标物品，以及 `exclusive_set` 是否与已有附魔冲突。
 
-**世界生成没有变化。** 已生成的区块不会因数据包修改而改变；应在新区块中验证，或按[种子迁移](/develop/maintain/ch-seed)处理。
-
 **周期函数重复执行。** 检查函数是否在重新排期前执行 `schedule clear`。
+
+**玩家一直处于冒险模式。** 检查该玩家是否拥有 `acovia:welcome_to_acovia`，以及 `acovia:cycle/enforce_whitelist` 是否在 `/schedule list` 中。
+
+**使用邀请函后没有礼包。** 礼包由 `welcome_to_acovia` 的奖励函数发放；若该进度已被授予，奖励不会重复执行。测试时先撤回进度，再重新使用邀请函。
+
+**世界生成没有变化。** 已生成的区块不会因数据包修改而改变；应在新区块中验证，或按[区域迁移](/develop/maintain-save/region-migration)处理。
 
 ## 发布前检查
 
 1. `/reload` 后无函数报错。
-2. `acovia:load` 正常执行，计分板与世界边界存在。
+2. `acovia:load` 正常执行，三个周期任务已排期，主世界边界为 1024 格。
 3. 三个维度均可进入，边界传送与流放落点正常。
-4. 五个自定义物品可合成、可使用、死亡与重进后状态正确。
-5. 六种附魔可附加，效果与商店价格一致。
-6. 商店交易在村民旁执行后完整出现。
-7. 新生成的区块使用预期群系与地物。
-8. 按[备份](/develop/maintain/backup)完成生产存档备份。
+4. 新玩家流程完整：访客模式 → 使用 Invitation → 生存模式与 Starter Kit。
+5. 五个配方产物可合成；Eroven、Rewind Scroll 与 Invitation 的使用行为正确。
+6. 六种附魔可附加，效果与商店价格一致。
+7. 商店交易在村民旁执行后完整出现。
+8. 新生成的区块使用预期群系与地物。
+9. 按[备份](/develop/maintain-save/backup)完成生产存档备份。

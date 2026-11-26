@@ -1,124 +1,145 @@
 # 内置函数
 
-数据包的函数位于 `data/acovia/function/`，按用途分为 `base`、`entity`、`item`、`enchantment` 与 `get`。函数通过 `data/minecraft/tags/function/load.json` 接入加载流程，其余函数由进度、附魔效果或命令调用。
+函数位于 `data/acovia/function/`，按调用来源与生命周期分层。加载入口只有 `load` 一个；其余函数分别服务于周期任务、玩家准入、物品、附魔、商店与发放。原 `base/` 目录与旧函数名已移除，不保留转发。
 
-## 加载与调度
+## 分层
 
-`load.json` 的内容为：
+| 目录或文件 | 角色 | 调用方 |
+| --- | --- | --- |
+| `load.mcfunction` | 加载入口 | `#minecraft:load` |
+| `cycle/` | 周期任务 | 自调度 |
+| `player/` | 玩家准入与初始化 | 进度奖励、周期任务 |
+| `item/` | 物品行为 | 进度奖励 |
+| `enchantment/` | 附魔行为 | 附魔 `run_function`、成书点击 |
+| `entity/` | 商店交易注入 | 命令方块、管理员 |
+| `get/` | 发放物品与坐骑 | 命令方块、管理员 |
 
-```json
-{
-  "values": [
-    "acovia:load"
-  ]
-}
-```
+`cycle/`、`player/`、`item/` 与 `enchantment/` 是数据包内部实现，修改时需要同步进度、判据或附魔 JSON。`load`、`get/` 与 `entity/` 是外部入口，可被命令方块或插件调用。
 
-`acovia:load` 在世界加载与 `/reload` 时执行，依次完成：
+## 加载入口
 
-1. 创建 `minus` 与 `time` 计分板。
-2. 调用 `base/timer`。
-3. 调用 `base/beyond_the_border`。
-4. 将主世界边界设为以 (0, 0) 为中心、边长 1024 格。
-
-周期函数在结束前清除自身调度，再重新排期，避免 `/reload` 后出现重复执行：
+`acovia:load` 在世界加载与 `/reload` 时执行：
 
 ```mcfunction
-schedule clear acovia:base/timer
-schedule function acovia:base/timer 1200
+function acovia:cycle/teleport_outside_border
+function acovia:cycle/reset_item_triggers
+function acovia:cycle/enforce_whitelist
+execute in minecraft:overworld run worldborder center 0.0 0.0
+execute in minecraft:overworld run worldborder set 1024
 ```
 
-`base/timer` 每 1200 tick 执行一次，`base/beyond_the_border` 每 20 tick 执行一次。
+它不创建计分板。三个 `cycle/` 函数在这里立即执行一次，并各自排期；因此 `/reload` 后不需要额外启动任务。主世界边界为边长 1024 格，范围为 -512 至 512。
 
-## 计分板
+## 周期任务
 
-| 计分板 | 维护者 | 含义 |
+每个周期函数都在开头清除自己的调度，再重新排期：
+
+```mcfunction
+schedule clear acovia:cycle/teleport_outside_border
+schedule function acovia:cycle/teleport_outside_border 20
+```
+
+| 函数 | 间隔 | 行为 |
 | --- | --- | --- |
-| `minus` | `base/timer` | 每次计时加 1；达到 60 后清零 |
-| `time` | `base/timer` | 每 60 次 `minus` 加 1 |
+| `acovia:cycle/teleport_outside_border` | 20 tick | 对满足 `acovia:is_beyond_border` 的玩家，在 `acovia:resola` 中以原坐标为中心 `spreadplayers ~ ~ 16 16` |
+| `acovia:cycle/enforce_whitelist` | 20 tick | 无 `welcome_to_acovia` 的玩家进入访客模式；已加入但处于冒险模式的玩家切回生存 |
+| `acovia:cycle/reset_item_triggers` | 2400 tick | 撤回 `use_eroven`、`use_invitation` 与 `use_rewind_scroll`，作为触发器复位兜底 |
 
-计分板由数据包与服务器共同使用。修改名称或初值前，应确认所有引用位置。
+`reset_item_triggers` 不处理 `welcome_to_acovia`：该进度表示成员身份，必须保留。
 
-## 基础函数
+## 玩家准入
 
-| 函数 | 调用方式 | 行为 |
+```text
+无 welcome_to_acovia
+  └─ cycle/enforce_whitelist（20 tick）
+       └─ player/apply_visitor_mode
+            ▸ 冒险模式 + actionbar 提示
+
+使用 Invitation
+  └─ advancement: use_invitation
+       └─ item/on_use_invitation
+            └─ grant welcome_to_acovia
+                 └─ reward: player/setup_new_player
+                      ▸ 生存模式 + Acovia Starter Kit
+```
+
+| 函数 | 执行者 | 行为 |
 | --- | --- | --- |
-| `acovia:load` | `#minecraft:load` | 初始化计分板、计时、边界检查与世界边界 |
-| `acovia:base/timer` | 自调度，1200 tick | 递增 `minus` 与 `time` |
-| `acovia:base/beyond_the_border` | 自调度，20 tick | 将越界玩家送入 `acovia:resola` |
-| `acovia:base/home` | 命令或实体逻辑 | 为最近的非玩家实体写入 `home_radius` 与 `home_pos` |
-| `acovia:base/clear_advancements` | 进度奖励 | 撤回指定进度并将时间设为夜晚 |
+| `acovia:player/apply_visitor_mode` | 玩家 | 设为冒险模式，并在 actionbar 提示未加入白名单 |
+| `acovia:player/setup_new_player` | 玩家 | 设为生存模式，发放黄色潜影盒 `Acovia Starter Kit` |
 
-`base/clear_advancements` 在玩家睡觉时执行。它撤回 `use_flower_of_regeneration`、`use_rewind_scroll`、`use_eroven` 与 `clear_advancements`，随后执行 `time set night`。该函数实现“床不能跳过夜晚”的规则。
+礼包共使用 26 个槽位，内容为：
 
-## 主城与商店
+- 资源：钻石 64、绿宝石 64、面包 64、云杉原木 128。
+- 装备：附魔耐久 III 与经验修补 I 的钻石剑、镐、锹、斧、头盔、胸甲、护腿、靴子、鞘翅与盾牌；力量 V 的弓与 64 支箭。
+- 生存用品：火把 64、工作台、熔炉、床、水桶、煤炭 32、金苹果 8、末影珍珠 8、末影箱。
 
-以下函数修改最近的村民，应在目标村民 5 格范围内执行：
+该函数是 `welcome_to_acovia` 的奖励，只会随首次获得该进度执行一次。重复使用邀请函不会再次发放礼包。
 
-| 函数 | 行为 |
-| --- | --- |
-| `acovia:entity/log_store` | 写入木材交易：1 绿宝石换 12 个方块，共 9 种木材 |
-| `acovia:entity/stone_store` | 写入石材交易：1 绿宝石换 12 个方块，共 13 种石材 |
-| `acovia:entity/magic_book_store` | 写入附魔商店交易：纸张换绿宝石、附魔书与魔导书 |
+::: note
+准入是数据包内的软限制，只切换游戏模式并提示；服务端 `whitelist.json` 与权限组不在数据包控制范围内。
+:::
 
-`magic_book_store` 的交易包含：
+## 物品行为
 
-- 16 张纸换 1 颗绿宝石。
-- 12 颗绿宝石换耐久 III，16 颗换经验修补。
-- 24 颗绿宝石换魔导书。
-- 魔导书加 32 至 64 颗绿宝石换自定义附魔书。
-- `acovia:destroy` 的交易 `maxUses` 为 0，只展示，不出售。
-
-`entity` 目录中的函数修改最近村民的 `Invulnerable`、`VillagerData` 与 `Offers` 字段，不生成村民。村民由服务器或建筑放置。
-
-## 主城发放
-
-| 函数 | 行为 |
-| --- | --- |
-| `acovia:get/compass` | 给予指向主世界原点 (0, 0, 0) 的磁石指南针 |
-| `acovia:get/fly_tool` | 在玩家位置生成微型乐魂坐骑 |
-| `acovia:fly_tool` | 与 `get/fly_tool` 相同的生成逻辑，供其他入口调用 |
-
-微型乐魂的缩放为 0.2，飞行速度为 0.055，带有 `Invulnerable`、`NoAI`、`Silent` 与 `Acovia` 标签。
-
-## 物品函数
-
-| 函数 | 触发条件 | 行为 |
+| 函数 | 触发进度 | 行为 |
 | --- | --- | --- |
-| `acovia:item/eroven` | `use_eroven` 进度（`used_totem`） | 撤回进度、公告、粒子、短暂失明，传送至主城广场 |
-| `acovia:item/rewind_scroll` | `use_rewind_scroll` 进度（`consume_item`） | 撤回进度、粒子、短暂失明，传送至主城广场 |
+| `acovia:item/on_use_eroven` | `use_eroven`（`used_totem`） | 撤回进度、全服公告、粒子与短暂失明，随后送回主城广场 |
+| `acovia:item/on_use_rewind_scroll` | `use_rewind_scroll`（`consume_item`） | 撤回进度、粒子与短暂失明，随后送回主城广场 |
+| `acovia:item/on_use_invitation` | `use_invitation`（`consume_item`） | 撤回 `use_invitation`，授予 `welcome_to_acovia` |
 
-两个函数均以 `spreadplayers 172.5 66.5 1 1` 选择落点。Eroven 的死亡保护组件与回溯卷轴的消耗组件在配方中定义，函数只处理传送与表现。
+Eroven 与 Rewind Scroll 均以 `spreadplayers 172.5 66.5 1 1` 选择落点。死亡保护与消耗动画由配方组件定义，函数只负责传送与表现；Invitation 的成员身份由进度表示，不写入计分板。
 
-## 附魔函数
+## 附魔行为
 
 | 函数 | 调用者 | 行为 |
 | --- | --- | --- |
-| `acovia:enchantment/control_ai` | `control_ai` 附魔 | 开关 16 格内最近非玩家实体的 AI，并使其面向玩家 |
-| `acovia:enchantment/destroy` | `destroy` 附魔 | 生成威力 128 的爆炸并移除箭 |
-| `acovia:enchantment/explode` | `explode` 附魔 | 非主世界生成威力 4 的爆炸；移除箭 |
-| `acovia:enchantment/lightning` | `lightning` 附魔 | 在受击者位置召唤闪电 |
-| `acovia:enchantment/block_lightning` | `lightning` 附魔 | 在箭落点 3 格内寻找生物并召唤闪电 |
-| `acovia:enchantment/imprison` | `imprison` 附魔或成书点击 | 将目标送入 `acovia:niravos`，距原点最远 5120 格 |
+| `acovia:enchantment/toggle_mob_ai` | `control_ai`（`post_piercing_attack`） | 切换 16 格内最近非玩家实体的 `NoAI`，使其面向玩家并显示粒子 |
+| `acovia:enchantment/destroy_arrow` | `destroy`（命中方块或实体） | 生成粒子，召唤威力 128 的 TNT，移除箭 |
+| `acovia:enchantment/explode_arrow` | `explode`（命中方块或实体） | 生成粒子；非主世界额外召唤威力 4 的 TNT，移除箭 |
+| `acovia:enchantment/lightning_hit_block` | `lightning`（`hit_block`） | 在落点 3 格内选择最近的实体（排除箭）召唤闪电 |
+| `acovia:enchantment/strike_lightning` | `lightning`（`post_attack`） | 在受击者位置召唤闪电 |
+| `acovia:enchantment/imprison_target` | `imprison`（`post_attack`）或成书点击 | 将不在 `acovia:niravos` 的目标送入该维度，随后播放音效、粒子与短暂失明 |
 
-附魔函数以攻击者或受击者为执行者，具体取决于附魔 JSON 中的 `affected` 与 `enchanted` 字段。修改时不得假定 `@s` 一定是玩家。
+附魔函数以攻击者、受击者或箭为执行者，具体取决于附魔 JSON 中的 `affected` 与 `enchanted`。修改时不得假定 `@s` 一定是玩家。命中判定统一排除已在 `acovia:niravos` 的目标，避免重复传送。
 
-## 判据
+## 商店注入
 
-| 判据 | 条件 |
+以下函数修改最近的村民，应在目标村民 5 格内执行：
+
+| 函数 | 行为 |
 | --- | --- |
-| `acovia:beyond_the_border` | 位于主世界，且 x 或 z 超出 -496 至 496 |
-| `acovia:has_permission` | 主手持有 `acovia:permission` 成书，作者为 Acovia，标题为 The book of Niravos |
+| `acovia:entity/log_store` | 9 种原木，1 绿宝石换 12 个，交易上限 256 |
+| `acovia:entity/stone_store` | 13 种石材，1 绿宝石换 12 个 |
+| `acovia:entity/magic_book_store` | 纸张、原版附魔书与自定义附魔书 |
 
-`has_permission` 用于需要管理权限的场景。判定依据是物品组件，不是玩家权限组；复制该书即可通过判定，因此只应在受控环境中使用。
+`magic_book_store` 的交易如下：
 
-## 公开 API 约定
+| 购买 | 支付 | 单次交付 | 交易上限 |
+| --- | --- | --- | --- |
+| 纸张 16 | 绿宝石 1 | — | 256 |
+| 耐久 III 附魔书 | 绿宝石 12 | 1 本 | 256 |
+| 经验修补附魔书 | 绿宝石 16 | 1 本 | 256 |
+| Lightning 附魔书 | 绿宝石 32 + 钻石 1 | 8 本 | 256 |
+| Control_AI 附魔书 | 绿宝石 48 + 钻石 1 | 12 本 | 256 |
+| Makeway 附魔书 | 绿宝石 48 + 钻石 1 | 12 本 | 256 |
+| Explode 附魔书 | 绿宝石 48 + 钻石 1 | 12 本 | 256 |
+| Destory 附魔书 | 绿宝石 64 + 钻石 1 | 16 本 | 0（仅展示） |
 
-`acovia:base`、`acovia:entity`、`acovia:item`、`acovia:enchantment` 与 `acovia:get` 中的函数均可能被其他数据包、命令方块或插件调用。对外暴露的函数应遵循以下约定：
+自定义附魔书不再要求魔导书作为底物，交易直接产出附魔书。`entity/` 中的函数只合并已有村民的 `Invulnerable`、`VillagerData` 与 `Offers`，不生成村民。
 
-- 函数名不再随意更改；重命名时保留旧路径作为转发函数。
-- 需要玩家上下文的函数通过 `execute as` 调用，并在文档中注明。
-- 不使用未文档化的计分板、标签或实体数据作为输入输出。
-- 新增公开函数时，在本页登记其调用方式与副作用。
+## 发放函数
 
-`arrow_velocity`、`damage_magic`、`fireball_magic`、`wither_magic` 为历史遗留或被注释的函数，不应作为 API 使用。`use_flower_of_regeneration` 进度仍存在于文件中，但其奖励函数已移除，仅用于 `clear_advancements` 的清理。
+| 函数 | 执行者 | 行为 |
+| --- | --- | --- |
+| `acovia:get/fly_tool` | 玩家 | 在当前位置生成微型飞行坐骑 |
+| `acovia:get/invitation` | 玩家 | 发放 1 张 Invitation |
+
+微型坐骑为 `happy_ghast`，缩放 0.2，飞行速度 0.055，带有 `Invulnerable`、`NoAI`、`Silent` 与 `Acovia` 标签。`get/compass` 与根目录的 `fly_tool` 已移除。
+
+## 调用约定
+
+- 外部入口保持稳定：`acovia:load`、`acovia:get/*`、`acovia:entity/*`。其余目录为内部实现，重命名时必须在同一提交中更新进度、判据、附魔与文档。
+- 需要玩家上下文的函数通过 `execute as <玩家> run function ...` 调用；`entity/*` 需要执行位置靠近目标村民。
+- 数据包不再使用计分板保存状态。玩家身份、事件复位与条件判断分别由进度、周期函数与判据承担。
+- 调试时可用 `/schedule list` 检查周期任务，用 `/function acovia:<path>` 直接执行入口函数。
